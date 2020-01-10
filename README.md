@@ -46,7 +46,7 @@ This first chapter can be studied with only python interpreter installed on your
  
 On my local system, the interpreter that I use is
 
-```shell script
+```console
 $ ./python 
 Python 3.8.1 (default, Jan 10 2020, 06:25:32) 
 [GCC 9.2.1 20191008] on linux
@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
 * Run the tests
 
-```shell script
+```
 
 $ python test_hello.py 
 Traceback (most recent call last):
@@ -110,7 +110,7 @@ if __name__ == '__main__':
 ### Exercise tests - 2
 
 
-```shell script
+```
 
 $ python test_hello.py 
 Traceback (most recent call last):
@@ -127,7 +127,7 @@ Now, we see a new error, `AssertionError`, which indicates our expected output a
 
 Let us make sure that `get_hello` returns the string "Hello, World"
 
-```pythonstub
+```python
 def get_hello() -> str:
     return "Hello, World!"
 ```
@@ -154,7 +154,7 @@ if __name__ == '__main__':
 
 Running this will give no output indicating that our test was successful.
 
-```shell script
+```
 $ python test_hello.py 
 ```
 
