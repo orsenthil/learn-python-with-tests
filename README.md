@@ -1,7 +1,5 @@
 # Learn Python with tests
 
-## Test Driven Development with Python
-
 This book introduces test driven development in Python. We follow a template while introducing the features of Python.
 
 * Write tests first.
