@@ -218,6 +218,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ```
 
+Our test driven programs will not have a SyntaxError or errors due to overwriting builtin names.
+These errors are easiest to catch and should be fixed immediately.
 
 
 
