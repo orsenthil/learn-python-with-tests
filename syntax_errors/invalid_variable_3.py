@@ -1,0 +1,1 @@
+class = "invalid variable name"
