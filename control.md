@@ -11,6 +11,29 @@ Almost all programs utilize these control statements to accomplish the task at h
 
 ## Problem and Solution.
 
+Let's demonstrate a while loop using Euclid's algorithm for finding the greatest common
+divisor.
+
+The greatest common divisor (GCD) of two numbers, is the largest number that divides both of them without leaving a
+ remainder. As given in this example from [Math is Fun](https://www.mathsisfun.com/greatest-common-factor.html) the
+  greatest common divisor of 12 and 16 is 4.
+ 
+![gcd](https://i.imgur.com/BOIPxQu.png)
+ 
+
+An efficient way to formulate GCD was given by Euclid.
+
+To find the GCD of A, B, given A > B.
+
+1. If A divided by B is 0, then GCD is B.
+2. Otherwise, calculate Reminder R of A divided by B. (R = A mod B). Find out GCD(B, R)
+3. When R is 0, terminate and return B. This is same as step 1.
+
+The explanation of this euclid algorithm explained well by Alexander Bogomolny in his [cut the knot](http://www.cut-the-knot.org/blue/Euclid.shtml)
+
+Problem Credits: Think Python Exercise, SICP, and 
+[Euclid's Algorithm](https://mathcs.clarku.edu/~djoyce/java/elements/bookVII/propVII2.html).
+
 ### Write tests first.
 
 ### Exercise tests.

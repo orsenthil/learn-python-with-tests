@@ -11,10 +11,8 @@ This book introduces test driven development in Python. We follow a template whi
 ## Inspiration
 
 This book is inspired from the work https://github.com/quii/learn-go-with-tests/ which introduces Go programming
- using similar pattern.
- 
-After reading this book, I felt that I could dwell into real-world go projects confidently. I wanted a similar book
- for Python, and thus, I decided to write this.
+using similar pattern. After reading the Go book, I felt that I could dwell into real-world go projects confidently. I
+wanted a similar book for Python and I decided to write the current one.
 
 ## Boiler plate code.
 
