@@ -36,9 +36,27 @@ Problem Credits: Think Python Exercise, SICP, and
 
 ### Write tests first.
 
+```python
+
+def gcd(A :int, B : int) -> int:
+    return 0
+
+
+def test_gcd():
+    gcd(12, 16) == 4, "GCD was incorrect."
+```
 ### Exercise tests.
 
 ### Fix tests.
+
+```python
+def gcd(a, b):
+    while b != 0:
+        temp = b
+        b = a % b
+        a = temp
+    return a
+```
 
 ### Refactor
 
