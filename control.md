@@ -108,7 +108,7 @@ If the variable `R`  is 0, then our `while` loop will exit and we could utilize 
 
 ```python
 
-def gcd(A :int, B : int) -> int:
+def gcd(A : int, B : int) -> int:
     if A % B == 0:
         return B
 
@@ -138,81 +138,12 @@ def gcd(A :int, B : int) -> int:
     return B
 ```
 
-Now, this brings the ultimate question, we are doing `A % B` twice and storing it in the variable `R`.  Can we
-refactor this further so that we dont repeat ourselves here?
-
-Yes, this is possible.
-
-When will R *always be* 0 for the values of A and B?  We will call this condition as an (Invariant)[https://en.wikipedia.org/wiki/Invariant_(mathematics)]
-
-1. When B divides A. 
-    - This is the situation we already test for, and applies for infinite values of A, and B. So this cannot be an
-     invariant.
-     
-2. When B is 0.
-
-The '%' operation is about finding the remainder when B divides A. When B is 0, the division will result in
- `ZeroDivisionError` in Python. This is not a good condition to check.
- 
-Let's verify few examples.
-
-```
->>> 10 % 0
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-ZeroDivisionError: integer division or modulo by zero
->>> 152 % 0
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-ZeroDivisionError: integer division or modulo by zero
->>> -1 % 0
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-ZeroDivisionError: integer division or modulo by zero
->>> 
-```
-
-3. When A is 0.
-   - In the operation, A % B, when A is 0, the result always seems to be 0.
-
-```
->>> 
->>> 0 % 1
-0
->>> 0 % 100
-0
->>> 0 % -1
-0
->>> 
-
-```
-
-So, this seems like the answer for the question - "When will R *always be* 0 for the values of A and B?"
-
-And the statements
-
-```
-    R = A % B
-    while R != 0:
-```
-
-could be substituted with
-
-```
-    while A != 0:
-
-```
-
-And keeping the return value `B` same.
-
-### Exercise Tests
-
-Let's try the program now
+Could we refactor this further?  Yes, our verification for for step 1 can be made in the while statement itself.
 
 ```python
 
 def gcd(A :int, B : int) -> int:
-    while A != 0:
+    while (A % B) != 0:
         A = B
         B = R
         R = A % B
@@ -224,15 +155,13 @@ def test_gcd():
     assert gcd(12, 16) == 4, "GCD was incorrect."
     assert gcd(4, 2) == 2, "GCD was incorrect"
 
-
-if __name__ == '__main__':
-    test_gcd()
-
 ```
 
-This will result in a error.
+Exercising this will result in an Error.
+
 
 ```
+/home/senthil/anaconda3/envs/xtoinfinity/bin/python /home/senthil/github/learn-python-with-tests/gcd/gcd_test6.py
 Traceback (most recent call last):
   File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test6.py", line 17, in <module>
     test_gcd()
@@ -243,188 +172,26 @@ Traceback (most recent call last):
 UnboundLocalError: local variable 'R' referenced before assignment
 ```
 
-We don't have R, and we used a variable `R` which is not bound to any value.
-We get this Error because, we use `R` in the next step. If we had eliminated the usage of R.
+The error indicates that we use the variable `R` ahead of its assignment.  Our logical usage is incorrect as well.
+We can correct the code as per the algorithm above.
 
 ```python
 
 def gcd(A :int, B : int) -> int:
-    while A != 0:
+    while (A % B) != 0:
+        R = A % B
         A = B
         B = R
-        A = A % B
 
     return B
-
 ```
 
-We will get, a `NameError` instead.
+And exercise this code results in a success.
 
-```
-/home/senthil/anaconda3/envs/xtoinfinity/bin/python /home/senthil/github/learn-python-with-tests/gcd/gcd_test9.py
-Traceback (most recent call last):
-  File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test9.py", line 16, in <module>
-    test_gcd()
-  File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test9.py", line 11, in test_gcd
-    assert gcd(12, 16) == 4, "GCD was incorrect."
-  File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test9.py", line 4, in gcd
-    B = R
-NameError: name 'R' is not defined
-```
-
-
-Our R was supposed to be `A % B`. Let us fix tha error by substituting `R` with `A % B`.
-
-
-```python
-def gcd(A :int, B : int) -> int:
-    while A != 0:
-        A = B
-        B = A % B
-        R = A % B
-
-    return B
-
-
-def test_gcd():
-    assert gcd(12, 16) == 4, "GCD was incorrect."
-    assert gcd(4, 2) == 2, "GCD was incorrect"
-```
-
-This should have eliminated the `UnboundLocalError` problem. And the variable `R` is unused.
-But running the program now gives
-
-
-```
-python /home/senthil/github/learn-python-with-tests/gcd/gcd_test7.py
-Traceback (most recent call last):
-  File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test7.py", line 17, in <module>
-    test_gcd()
-  File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test7.py", line 12, in test_gcd
-    assert gcd(12, 16) == 4, "GCD was incorrect."
-  File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test7.py", line 6, in gcd
-    R = A % B
-ZeroDivisionError: integer division or modulo by zero
-```
-
-Perhaps, it was the redundant `R` ? Let's eliminate that.
-
-```
-def gcd(A :int, B : int) -> int:
-    while A != 0:
-        A = B
-        B = A % B
-    return B
-
-def test_gcd():
-    assert gcd(12, 16) == 4, "GCD was incorrect."
-    assert gcd(4, 2) == 2, "GCD was incorrect"
-```
-
-
-And this will still give the same `ZeroDivisionError` at the line
-
-```
-python /home/senthil/github/learn-python-with-tests/gcd/gcd_test9.py
-Traceback (most recent call last):
-  File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test9.py", line 16, in <module>
-    test_gcd()
-  File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test9.py", line 11, in test_gcd
-    assert gcd(12, 16) == 4, "GCD was incorrect."
-  File "/home/senthil/github/learn-python-with-tests/gcd/gcd_test9.py", line 5, in gcd
-    B = A % B
-ZeroDivisionError: integer division or modulo by zero
-```
-
-* `A % B` is giving us the ZeroDivisionError because B is zero.
-*  `A = B` was present the previous step. So, A must be 0 too.
-* The program would have exited, but when is A, but we failed ahead of that step.
-
-What is really happening is, when we subsituted `R` in the previous step.
-
-```
-        A = B
-        B = R
-```
-
-With
-
-```
-        A = B
-        B = A % B
-```
-
-This was essentially
-
-```
-        A = B
-        B = B % B
-```
-
-And B was 0. This was a costly mistake.
-
-So, let us retrace our steps back, and try again for fixing the program with `UnboundLocalError` so that correct
- substitution happens.
-
-```python
-
-def gcd(A :int, B : int) -> int:
-    while A != 0:
-        A = B
-        B = R
-        R = A % B
-
-    return B
-
-
-def test_gcd():
-    assert gcd(12, 16) == 4, "GCD was incorrect."
-    assert gcd(4, 2) == 2, "GCD was incorrect"
-
-
-if __name__ == '__main__':
-    test_gcd()
-
-```
-
-1. If A divided by B is 0, then GCD is B.
-   - If A is 0, then GCD is B.
-2. Otherwise, calculate Reminder R of A divided by B. (R = A mod B). 
-3. Find out GCD(B, R), that is subsitute B for A, R and R for B, go to step 1 which calculates GCD.
-   
-   
-
-```python
-
-def gcd(A :int, B : int) -> int:
-    while A != 0:
-
-        R = A % B
-        B = A
-        A = R
-
-    return B
-
-
-def test_gcd():
-    assert gcd(12, 16) == 4, "GCD was incorrect."
-    assert gcd(4, 2) == 2, "GCD was incorrect"
-
-```
-
-This will give an error.
-
-```
-
-    assert gcd(12, 16) == 4, "GCD was incorrect."
-AssertionError: GCD was incorrect.
-```
-
-This is because 12 is smaller than 16. and 12 % 16 will be 12.
-
-We will always want to make sure in the calculation of `A % B`, that, A is smaller than B.
-
-# Continue...
+At this moment, I decided to stop because any further refactoring, like calculating `A % B` only once will lead to
+ edge cases, which can be confusing.
+ 
+The code follows our algorithm to the dot, and easy to remember.
 
 
 ## Final Code
@@ -433,20 +200,22 @@ The final solution looks like this. And this works for number in any order.
 
 ```python
 
-def gcd(a, b):
-    while b != 0:
-        temp = b
-        b = a % b
-        a = temp
-    return a
+def gcd(A :int, B : int) -> int:
+    while (A % B) != 0:
+        R = A % B
+        A = B
+        B = R
+
+    return B
 
 
-def main():
-    print(gcd(2, 4))
-    print(gcd(4, 2))
-    print(gcd(12, 16))
-    print(gcd(16, 12))
+def test_gcd():
+    assert gcd(16, 12) == 4, "GCD was incorrect"
+    assert gcd(12, 16) == 4, "GCD was incorrect."
+    assert gcd(4, 2) == 2, "GCD was incorrect"
+    assert gcd(2, 4) == 2, "GCD was incorrect"
+
 
 if __name__ == '__main__':
-    main()
+    test_gcd()
 ```

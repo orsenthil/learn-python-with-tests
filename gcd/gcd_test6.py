@@ -1,6 +1,6 @@
 
 def gcd(A :int, B : int) -> int:
-    while A != 0:
+    while (A % B) != 0:
         A = B
         B = R
         R = A % B
