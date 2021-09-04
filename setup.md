@@ -70,7 +70,7 @@ And install testing tool and the library `pytest` We wont be using `pytest` in t
 we will use it as test runner.
 
 ```
-pip install --upgrade mypy
+pip install --upgrade pytest
 ```
 
 
